@@ -1,0 +1,23 @@
+version: '3'
+services:
+    app:
+        build:
+            context: devops/python/
+        container_name: task_app
+        ports:
+            - 5000:5000
+        volumes:
+            - .:/code
+        links:
+            - db
+    
+    db:
+        container_name: task_db
+        image: mysql:5.7
+        ports:
+            - "3306:3306"
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_DATABASE=application
+            - MYSQL_USER=root
+            - MYSQL_PASSWORD=root
