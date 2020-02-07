@@ -1,7 +1,7 @@
 from flask import Response, request
 from src import app
 
-import json
+import json, os
 
 
 class TaskView:
@@ -10,8 +10,9 @@ class TaskView:
 	def index():
 		response = {
 			'status': 'success',
-			'message': 'Request successful'
+			'message': 'Request successful',			
 		}
+		
 		return Response(json.dumps(response), content_type='application/json')	
 
 		
