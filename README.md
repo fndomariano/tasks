@@ -1,5 +1,7 @@
 # Tasks
 
+This repository is an API that can be used to register tasks. It one is very simple and I've made to learn Flask.
+
 ### Install
 
 ```bash
@@ -13,16 +15,16 @@ docker-compose exec app flask db upgrade
 
 ## Example requests
 
-### /api/tasks
+> ### /api/tasks
 
-Obtém informações das tarefas
+It gets a list of tasks
 
-### Request
+#### Request
 ```bash
 curl --location --request GET 'http://localhost:5000/api/tasks' --header 'Content-Type: application/json'
 ```
 
-### Successful Response
+#### Successful Response
 
 ```json
 {
@@ -59,9 +61,9 @@ curl --location --request GET 'http://localhost:5000/api/tasks' --header 'Conten
 }
 ```
 
-### /api/tasks/add
+> ### /api/tasks/add
 
-Adiciona uma nova tarefa
+It adds a task
 
 #### Request
 ```bash
@@ -91,9 +93,9 @@ curl --location --request POST 'http://localhost:5000/api/tasks/add' \
 }
 ```
 
-### /api/tasks/edit
+> ### /api/tasks/edit
 
-Edita uma tarefa
+It edits a task
 
 ```bash
 curl --location --request PUT 'http://localhost:5000/api/tasks/edit/11' \
@@ -122,9 +124,9 @@ curl --location --request PUT 'http://localhost:5000/api/tasks/edit/11' \
 }
 ```
 
-### /api/tasks/remove
+> ### /api/tasks/remove
 
-Remove uma tarefa
+It removes a task
 
 ```bash
 curl --location --request DELETE 'http://localhost:5000/api/tasks/remove/10' --header 'Content-Type: application/json'	
@@ -147,9 +149,9 @@ curl --location --request DELETE 'http://localhost:5000/api/tasks/remove/10' --h
 ```
 
 
-### /api/tasks/show
+> ### /api/tasks/show
 
-Exibe uma tarefa
+It shows details about a task
 
 ```bash
 curl --location --request GET 'http://localhost:5000/api/tasks/show/10' --header 'Content-Type: application/json'	
