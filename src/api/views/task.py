@@ -49,8 +49,7 @@ class TaskView:
 			
 			response = {
 				'status': 'success',
-				'message': 'Task added successfully',
-				'id': task.id
+				'message': 'Task added successfully'				
 			} 
 
 			return Response(json.dumps(response), content_type='application/json', status=201)	
@@ -75,8 +74,7 @@ class TaskView:
 			
 			response = {
 				'status': 'success',
-				'message': 'Task edited successfully',
-				'id': task.id
+				'message': 'Task edited successfully'				
 			}
 
 			return Response(json.dumps(response), content_type='application/json', status=201)
@@ -94,7 +92,7 @@ class TaskView:
 			
 			db.session.delete(task)
 			db.session.commit()
-			db.session.flus()
+			db.session.flush()
 
 			response = {
 				'status': 'success',

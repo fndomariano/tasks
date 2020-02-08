@@ -31,8 +31,7 @@ class TaskView(unittest.TestCase):
 		response = self.client.post('http://localhost:5000/api/tasks/add', json=task)
 		
 		self.assertEqual(201, response.status_code)
-		self.assertIn('application/json', response.content_type)
-		self.assertEqual(True, "id" in response.json)
+		self.assertIn('application/json', response.content_type)		
 		self.assertEqual('success', response.json.get('status'))
 
 	def test_invalid_post(self):
@@ -88,8 +87,7 @@ class TaskView(unittest.TestCase):
 		response = self.client.put('http://localhost:5000/api/tasks/edit/9', json=task)
 		
 		self.assertEqual(201, response.status_code)
-		self.assertIn('application/json', response.content_type)
-		self.assertEqual(True, "id" in response.json)
+		self.assertIn('application/json', response.content_type)		
 		self.assertEqual('success', response.json.get('status'))
 
 	def test_invalid_put(self):
