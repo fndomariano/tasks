@@ -61,10 +61,17 @@ class TaskView:
 			return Response(json.dumps(response), content_type='application/json', status=422)	
 	
 	@app.route('/api/tasks/edit/<id>', methods=['PUT'])
-	def edit(self, id):
+	def edit(id):
 		
 		try:
-			task = Task.query.find_or_404(id)
+			task = Task.query.get(id)
+			task.title = request.json.get('title'),
+			task.description = request.json.get('description'),
+			task.date_begin = datetime.strptime(request.json.get('date_begin'), '%d/%m/%Y %H:%M:%S'),
+			task.date_until = datetime.strptime(request.json.get('date_until'), '%d/%m/%Y %H:%M:%S')
+			
+			db.session.commit()
+			db.session.flush()
 			
 			response = {
 				'status': 'success',
@@ -87,6 +94,7 @@ class TaskView:
 			
 			db.session.delete(task)
 			db.session.commit()
+			db.session.flus()
 
 			response = {
 				'status': 'success',

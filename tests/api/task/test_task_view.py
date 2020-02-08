@@ -74,3 +74,36 @@ class TaskView(unittest.TestCase):
 		self.assertEqual(400, response.status_code)
 		self.assertIn('application/json', response.content_type)
 		self.assertEqual('error', response.json.get('status'))
+
+
+	def test_put(self):
+
+		task = {
+			'title': 'Test Title 2',
+			'date_begin': '03/02/2020 08:00:00',
+			'date_until': '03/02/2020 18:00:00',
+			'description': 'Lorem Ipsum 2'	
+		}
+
+		response = self.client.put('http://localhost:5000/api/tasks/edit/9', json=task)
+		
+		self.assertEqual(201, response.status_code)
+		self.assertIn('application/json', response.content_type)
+		self.assertEqual(True, "id" in response.json)
+		self.assertEqual('success', response.json.get('status'))
+
+	def test_invalid_put(self):
+
+		task = {
+			'title': 'Test Title 2',
+			'date_begin': '',
+			'date_until': '',
+			'description': ''
+		}
+
+		response = self.client.put('http://localhost:5000/api/tasks/edit/9', json=task)
+
+		self.assertEqual(422, response.status_code)
+		self.assertIn('application/json', response.content_type)
+		self.assertEqual(True, "status" in response.json)
+		self.assertEqual('error', response.json.get('status'))
