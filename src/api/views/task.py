@@ -12,24 +12,22 @@ class TaskView:
 
 		response = {'data': []}		
 		
-		tasks = Task.query.all()				
-		total = session.query(func.count(Task.id))
-
-		if (total > 0):
-			for task in tasks:
-				
-				record = {
-					'id': task.id,
-					'title': task.title,
-					'date_begin': task.date_begin.isoformat(),
-					'date_until': task.date_until.isoformat(),
-					'description': task.description
-				}
-				
-				response['data'].append(record)		
+		tasks = Task.query.all()						
+		
+		for task in tasks:
+			
+			record = {
+				'id': task.id,
+				'title': task.title,
+				'date_begin': task.date_begin.isoformat(),
+				'date_until': task.date_until.isoformat(),
+				'description': task.description
+			}
+			
+			response['data'].append(record)		
 
 				
-		return Response(json.dumps(response), content_type='application/json', status=201)	
+		return Response(json.dumps(response), content_type='application/json', status=200)	
 
 	
 	@app.route('/api/tasks/add', methods=['POST'])
@@ -58,12 +56,70 @@ class TaskView:
 			return Response(json.dumps(response), content_type='application/json', status=201)	
 
 		except Exception as err:
-			
 			db.session.rollback()
 			response = {'status': 'error', 'message': str(err)}
-			
 			return Response(json.dumps(response), content_type='application/json', status=422)	
+	
+	@app.route('/api/tasks/edit/<id>', methods=['PUT'])
+	def edit(self, id):
 		
+		try:
+			task = Task.query.find_or_404(id)
+			
+			response = {
+				'status': 'success',
+				'message': 'Task edited successfully',
+				'id': task.id
+			}
 
+			return Response(json.dumps(response), content_type='application/json', status=201)
+		
+		except Exception as err:
+			db.session.rollback()
+			response = {'status': 'error', 'message': str(err)}
+			return Response(json.dumps(response), content_type='application/json', status=422)
+			
+
+	@app.route('/api/tasks/remove/<id>', methods=['DELETE'])
+	def remove(id):
+		try:
+			task = Task.query.get(id)
+			
+			db.session.delete(task)
+			db.session.commit()
+
+			response = {
+				'status': 'success',
+				'message': 'Task removed successfully'				
+			}
+
+			return Response(json.dumps(response), content_type='application/json', status=200)
+
+		except Exception as err:
+			db.session.rollback()
+			response = {'status': 'error', 'message': str(err)}
+			return Response(json.dumps(response), content_type='application/json', status=400)
+
+	
+	@app.route('/api/tasks/show/<id>', methods=['GET'])
+	def show(id):
+		try:
+			task = Task.query.get(id)
+			
+			response = {
+				'data': {
+					'id': task.id,
+					'title': task.title,
+					'description': task.description,
+					'date_begin': task.date_begin.isoformat(),
+					'date_until': task.date_until.isoformat()
+				}
+			}
+		
+			return Response(json.dumps(response), content_type='application/json', status=200)
+
+		except Exception as err:
+			response = {'status': 'error', 'message': str(err)}
+			return Response(json.dumps(response), content_type='application/json', status=404)		
 
 			
