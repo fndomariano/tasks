@@ -1,4 +1,4 @@
-from flask import Response, request
+from flask import Response, request, jsonify
 from src import app, db
 from src.api.models.task import Task
 from datetime import datetime
@@ -9,12 +9,27 @@ class TaskView:
     
 	@app.route('/api/tasks', methods=['GET'])
 	def index():
-		response = {
-			'status': 'success',
-			'message': 'Request successful',			
-		}
+
+		response = {'data': []}		
 		
-		return Response(json.dumps(response), content_type='application/json')	
+		tasks = Task.query.all()				
+		total = session.query(func.count(Task.id))
+
+		if (total > 0):
+			for task in tasks:
+				
+				record = {
+					'id': task.id,
+					'title': task.title,
+					'date_begin': task.date_begin.isoformat(),
+					'date_until': task.date_until.isoformat(),
+					'description': task.description
+				}
+				
+				response['data'].append(record)		
+
+				
+		return Response(json.dumps(response), content_type='application/json', status=201)	
 
 	
 	@app.route('/api/tasks/add', methods=['POST'])
@@ -34,7 +49,13 @@ class TaskView:
 			db.session.commit()
 			db.session.flush()
 			
-			return Response(json.dumps({'id': task.id}), content_type='application/json', status=201)	
+			response = {
+				'status': 'success',
+				'message': 'Task added successfully',
+				'id': task.id
+			} 
+
+			return Response(json.dumps(response), content_type='application/json', status=201)	
 
 		except Exception as err:
 			
