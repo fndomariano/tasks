@@ -4,16 +4,27 @@ This repository is an API that can be used to register tasks. It one is very sim
 
 ### Install
 
+a) Configure environment file
+
+```bash
+cp .env-sample .env
+```
+
+b) Up the docker containers
+
 ```bash
 docker-compose up -d --build
 ```
 
-Run migrations
+c)  Run migrations
+
 ```bash
 docker-compose exec app flask db upgrade  
 ```
 
 ## Example requests
+
+Bellow, there are some examples of requests and their responses.
 
 > ### /api/tasks
 
