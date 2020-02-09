@@ -1,5 +1,5 @@
 from flask import Response, request, jsonify
-from src import app, db
+from src import app, db, debug
 from src.api.models.task import Task
 from datetime import datetime
 import json, os
@@ -56,7 +56,10 @@ class TaskView:
 
 		except Exception as err:
 			db.session.rollback()
-			response = {'status': 'error', 'message': str(err)}
+			response = {
+				'status': 'error', 
+				'message': str(err) if debug else 'Something was wrong. Try again later!'
+			}
 			return Response(json.dumps(response), content_type='application/json', status=422)	
 	
 	@app.route('/api/tasks/edit/<id>', methods=['PUT'])
@@ -74,14 +77,17 @@ class TaskView:
 			
 			response = {
 				'status': 'success',
-				'message': 'Task edited successfully'				
+				'message': 'Task edited successfully'
 			}
 
 			return Response(json.dumps(response), content_type='application/json', status=201)
 		
 		except Exception as err:
 			db.session.rollback()
-			response = {'status': 'error', 'message': str(err)}
+			response = {
+				'status': 'error', 
+				'message': str(err) if debug else 'Something was wrong. Try again later!'
+			}
 			return Response(json.dumps(response), content_type='application/json', status=422)
 			
 
@@ -103,7 +109,10 @@ class TaskView:
 
 		except Exception as err:
 			db.session.rollback()
-			response = {'status': 'error', 'message': str(err)}
+			response = {
+				'status': 'error', 
+				'message': str(err) if debug else 'Something was wrong. Try again later!'
+			}
 			return Response(json.dumps(response), content_type='application/json', status=400)
 
 	
@@ -124,8 +133,11 @@ class TaskView:
 		
 			return Response(json.dumps(response), content_type='application/json', status=200)
 
-		except Exception as err:
-			response = {'status': 'error', 'message': str(err)}
+		except Exception as err:			
+			response = {
+				'status': 'error', 
+				'message': str(err) if debug else 'Something was wrong. Try again later!'				
+			}
 			return Response(json.dumps(response), content_type='application/json', status=404)		
 
 			

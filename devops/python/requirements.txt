@@ -4,3 +4,4 @@ flask-migrate
 pytest
 jsons
 mysqlclient
+python-dotenv
