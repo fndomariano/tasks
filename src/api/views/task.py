@@ -37,8 +37,8 @@ class TaskView:
 			data = {
 				'title': request.json.get('title'),
 				'description': request.json.get('description'),
-				'date_begin': datetime.strptime(request.json.get('date_begin'), '%d/%m/%Y %H:%M:%S'),
-				'date_until': datetime.strptime(request.json.get('date_until'), '%d/%m/%Y %H:%M:%S')
+				'date_begin': datetime.strptime(request.json.get('date_begin'), '%Y-%m-%d %H:%M:%S'),
+				'date_until': datetime.strptime(request.json.get('date_until'), '%Y-%m-%d %H:%M:%S')
 			}
 			
 			task = Task(data)
@@ -69,8 +69,8 @@ class TaskView:
 			task = Task.query.get(id)
 			task.title = request.json.get('title'),
 			task.description = request.json.get('description'),
-			task.date_begin = datetime.strptime(request.json.get('date_begin'), '%d/%m/%Y %H:%M:%S'),
-			task.date_until = datetime.strptime(request.json.get('date_until'), '%d/%m/%Y %H:%M:%S')
+			task.date_begin = datetime.strptime(request.json.get('date_begin'), '%Y-%m-%d %H:%M:%S'),
+			task.date_until = datetime.strptime(request.json.get('date_until'), '%Y-%m-%d %H:%M:%S')
 			
 			db.session.commit()
 			db.session.flush()

@@ -5,3 +5,4 @@ pytest
 jsons
 mysqlclient
 python-dotenv
+faker
